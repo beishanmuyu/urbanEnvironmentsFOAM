@@ -22,13 +22,13 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         400;
+endTime         4000;
 
 deltaT          1;
 
 writeControl    timeStep;
 
-writeInterval   50;
+writeInterval   100;
 
 purgeWrite      0;
 
@@ -42,7 +42,7 @@ timeFormat      general;
 
 timePrecision   6;
 
-runTimeModifiable true;
+runTimeModifiable false ;
 
 // adjustTimeStep  yes;
 
@@ -51,5 +51,10 @@ runTimeModifiable true;
 functions
 {
 }
+
+libs
+(
+  "liburbanEnv.so"
+);
 
 // ************************************************************************* //

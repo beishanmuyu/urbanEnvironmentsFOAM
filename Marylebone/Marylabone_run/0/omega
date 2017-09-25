@@ -10,44 +10,47 @@ FoamFile
     version     2.0;
     format      ascii;
     class       volScalarField;
-    object      nut;
+    location    "0";
+    object      omega;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+omegaInlet 22.4;
 
-dimensions      [0 2 -1 0 0 0 0];
+dimensions      [0 0 -1 0 0 0 0];
 
-internalField   uniform 0;
+internalField   uniform $omegaInlet;
 
 boundaryField
 {
-    inlet
-    {
-        type            calculated;
-        value           uniform 0;
-    }
-
-    outlet
-    {
-        type            calculated;
-        value           uniform 0;
-    }
-
-    wall
-    {
-
-      type            nutkAtmRoughWallFunction;
-      z0              uniform 0.1;
-      value           uniform 0;
-    }
+  
+      inlet
+      {
+         type            atmBoundaryLayerInletOmega;
+         flowDir              (1 0 0);
+         zDir               (0 0 1);
+         Uref            0.7287;
+         Zref            557;
+         z0              uniform 0.1;
+         zGround         uniform 0.0;
+         value           uniform $omegaInlet;
+     }
 
 
+      outlet
+      {
+          type            inletOutlet;
+          inletValue      uniform $omegaInlet;
+          value           uniform $omegaInlet;
+      }
 
-    #includeEtc "caseDicts/setConstraintTypes"
+      wall
+      {
+          type            omegaWallFunction;
+          value           uniform $omegaInlet;
+      }
 
-//  frontAndBack
-//  {
-//    type            calculated;
-//    value           uniform 0;  }
+      #includeEtc "caseDicts/setConstraintTypes"
 }
+
 
 // ************************************************************************* //

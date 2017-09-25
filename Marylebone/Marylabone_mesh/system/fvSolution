@@ -10,32 +10,59 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    location    "system";
-    object      decomposeParDict;
+    object      fvSolution;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains 8;
-
-method          hierarchical;
-
-simpleCoeffs
+solvers
 {
-    n               (4 2 1);
-    delta           0.001;
+    p
+    {
+        solver          GAMG;
+        smoother        DIC;
+        tolerance       1e-6;
+        relTol          0.1;
+    }
+
+    "(U|k|omega|epsilon)"
+    {
+        solver          GAMG;
+        smoother        symGaussSeidel;
+        tolerance       1e-6;
+        relTol          0.1;
+    }
 }
 
-hierarchicalCoeffs
+SIMPLE
 {
-    n               (4 2 1);
-    delta           0.001;
-    order           xyz;
+    residualControl
+    {
+        p               1e-5;
+        U               1e-5;
+        "(k|omega|epsilon)" 1e-5;
+    }
+    nNonOrthogonalCorrectors 1;
+    pRefCell        0;
+    pRefValue       0;
+
 }
 
-manualCoeffs
+potentialFlow
 {
-    dataFile        "cellDecomposition";
+    nNonOrthogonalCorrectors 10;
 }
 
+relaxationFactors
+{
+    fields
+    {
+        p               0.3;
+    }
+    equations
+    {
+        U               0.7;
+        "(k|omega|epsilon).*" 0.7;
+    }
+}
 
 // ************************************************************************* //

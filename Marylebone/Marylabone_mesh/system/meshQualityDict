@@ -10,32 +10,13 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    location    "system";
-    object      decomposeParDict;
+    object      meshQualityDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains 8;
+#includeEtc "caseDicts/mesh/generation/meshQualityDict.cfg"
 
-method          hierarchical;
-
-simpleCoeffs
-{
-    n               (4 2 1);
-    delta           0.001;
-}
-
-hierarchicalCoeffs
-{
-    n               (4 2 1);
-    delta           0.001;
-    order           xyz;
-}
-
-manualCoeffs
-{
-    dataFile        "cellDecomposition";
-}
-
+//- minFaceWeight (0 -> 0.5)
+//minFaceWeight 0.02;
 
 // ************************************************************************* //

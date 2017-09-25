@@ -10,32 +10,56 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    location    "system";
-    object      decomposeParDict;
+    object      fvSchemes;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains 8;
-
-method          hierarchical;
-
-simpleCoeffs
+ddtSchemes
 {
-    n               (4 2 1);
-    delta           0.001;
+    default         steadyState;
 }
 
-hierarchicalCoeffs
+gradSchemes
 {
-    n               (4 2 1);
-    delta           0.001;
-    order           xyz;
+    default         Gauss linear;
+
+    limited         cellLimited Gauss linear 1;
+    grad(U)         $limited;
+    grad(k)         $limited;
+    grad(epsilon)     $limited;
 }
 
-manualCoeffs
+divSchemes
 {
-    dataFile        "cellDecomposition";
+    default         none;
+
+    div(phi,U)      bounded Gauss linearUpwind limited;
+
+    turbulence      bounded Gauss limitedLinear 1;
+    div(phi,k)      $turbulence;
+    div(phi,epsilon) $turbulence;
+
+    div((nuEff*dev2(T(grad(U))))) Gauss linear;
 }
 
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default         linear;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+wallDist
+{
+    method meshWave;
+}
 
 // ************************************************************************* //

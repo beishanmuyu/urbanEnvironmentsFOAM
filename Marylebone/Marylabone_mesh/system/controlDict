@@ -10,32 +10,51 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    location    "system";
-    object      decomposeParDict;
+    object      controlDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains 8;
+application     simpleFoam;
 
-method          hierarchical;
+startFrom       latestTime;
 
-simpleCoeffs
+startTime       0;
+
+stopAt          endTime;
+
+endTime         4000;
+
+deltaT          1;
+
+writeControl    timeStep;
+
+writeInterval   100;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable false;
+
+// adjustTimeStep  yes;
+
+// maxCo           1;
+
+functions
 {
-    n               (4 2 1);
-    delta           0.001;
 }
 
-hierarchicalCoeffs
-{
-    n               (4 2 1);
-    delta           0.001;
-    order           xyz;
-}
-
-manualCoeffs
-{
-    dataFile        "cellDecomposition";
-}
-
+libs
+(
+  "liburbanEnv.so"
+);
 
 // ************************************************************************* //
