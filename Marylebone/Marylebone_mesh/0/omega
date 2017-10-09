@@ -22,8 +22,8 @@ internalField   uniform $omegaInlet;
 
 boundaryField
 {
-  boundaryField
-  {
+
+  
       inlet
       {
          type            atmBoundaryLayerInletOmega;
@@ -34,7 +34,7 @@ boundaryField
          z0              uniform 0.1;
          zGround         uniform 0.0;
          value           uniform $omegaInlet;
-     }
+      }
 
 
       outlet

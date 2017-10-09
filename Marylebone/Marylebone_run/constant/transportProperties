@@ -10,59 +10,18 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    object      fvSolution;
+    object      transportProperties;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-solvers
-{
-    p
-    {
-        solver          GAMG;
-        smoother        DIC;
-        tolerance       1e-6;
-        relTol          0.1;
-    }
+transportModel  Newtonian;
 
-    "(U|k|omega|epsilon)"
-    {
-        solver          GAMG;
-        smoother        symGaussSeidel;
-        tolerance       1e-6;
-        relTol          0.1;
-    }
-}
+nu              [0 2 -1 0 0 0 0] 1.5e-05;
 
-SIMPLE
-{
-    residualControl
-    {
-        p               1e-5;
-        U               1e-5;
-        "(k|omega|epsilon)" 1e-5;
-    }
-    nNonOrthogonalCorrectors 1;
-    pRefCell        0;
-    pRefValue       0;
+DT              DT [0 2 -1 0 0 0 0] 0.0;
 
-}
-
-potentialFlow
-{
-    nNonOrthogonalCorrectors 10;
-}
-
-relaxationFactors
-{
-    fields
-    {
-        p               0.3;
-    }
-    equations
-    {
-        U               0.7;
-        "(k|omega|epsilon).*" 0.7;
-    }
-}
+SchmidtTurbulent         0.7;
+solveMomentum           true;
+solveScalar             true;
 
 // ************************************************************************* //

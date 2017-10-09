@@ -26,6 +26,7 @@ gradSchemes
     limited         cellLimited Gauss linear 1;
     grad(U)         $limited;
     grad(k)         $limited;
+    grad(T)         $limited;
     grad(epsilon)   $limited;
     grad(omega)     $limited;
 }
@@ -38,6 +39,7 @@ divSchemes
 
     turbulence      bounded Gauss limitedLinear 1;
     div(phi,k)       $turbulence;
+    div(phi,T)       $turbulence;
     div(phi,epsilon) $turbulence;
     div(phi,omega)   $turbulence;
 
